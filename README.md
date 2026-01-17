@@ -1,4 +1,4 @@
-# Iris Flower Classification 🌸
+# Iris Flower Classification 
 
 This project is part of the **CodeAlpha Data Science Internship**.  
 The goal of this project is to build a machine learning model that can classify Iris flowers into different species based on their physical measurements.
