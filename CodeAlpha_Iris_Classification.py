@@ -11,7 +11,7 @@ Created on Tue Jan 13 09:29:09 2026
 # This script trains a machine learning model
 # to classify Iris flowers into three species
 # using their physical measurements.
-# Step 1: Import all required libraries
+# Import all required libraries
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -21,7 +21,7 @@ from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
-# Step 2: Load the Iris dataset
+# Load the Iris dataset
 
 # Scikit-learn already provides the Iris dataset,
 # so we don’t need to download it manually.
@@ -38,7 +38,7 @@ target_names = iris.target_names
 
 
 
-# Step 3: Create a DataFrame for analysis
+# Create a DataFrame for analysis
 
 # Converting data into a Pandas DataFrame
 # makes it easier to explore and visualize.
@@ -50,7 +50,7 @@ print("First 5 rows of the dataset:")
 print(df.head())
 
 
-# Step 4: Understand the dataset
+# Understand the dataset
 
 print("\nDataset information:")
 print(df.info())
@@ -60,7 +60,7 @@ print(df.isnull().sum())
 
 
 
-# Step 5: Visualize the data
+# Visualize the data
 # Pairplot helps us see relationships between
 # different features and how species differ.
 
@@ -70,7 +70,7 @@ plt.show()
 
 
 
-# Step 6: Split data into training & testing
+# Split data into training & testing
 # 80% data for training, 20% for testing
 
 X_train, X_test, y_train, y_test = train_test_split(
@@ -79,20 +79,38 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 
 
-# Step 7: Train the machine learning model
+# Train the machine learning model
 # Random Forest is powerful and works very well
 # for classification problems like this.
 
 model = RandomForestClassifier(n_estimators=100, random_state=42)
 model.fit(X_train, y_train)
+feature_importance = pd.Series(
+    model.feature_importances_,
+    index=feature_names
+).sort_values(ascending=False)
+
+print("\nFeature Importance:")
+print(feature_importance)
+
+feature_importance.plot(kind="bar")
+plt.title("Feature Importance in Iris Classification")
+plt.show()
 
 
-# Step 8: Make predictions on test data
+
+# Make predictions on test data
 y_pred = model.predict(X_test)
 
+# Predict a new flower sample (custom input)
+sample_flower = [[5.1, 3.5, 1.4, 0.2]]  # example values
+prediction = model.predict(sample_flower)
+
+print("\nPrediction for sample flower:")
+print("Predicted Species:", target_names[prediction[0]])
 
 
-# Step 9: Evaluate model performance
+# Evaluate model performance
 accuracy = accuracy_score(y_test, y_pred)
 print("\nModel Accuracy:", accuracy)
 
@@ -101,7 +119,7 @@ print(classification_report(y_test, y_pred, target_names=target_names))
 
 
 
-# Step 10: Display confusion matrix
+# Display confusion matrix
 # Confusion matrix shows correct vs incorrect predictions
 
 cm = confusion_matrix(y_test, y_pred)
@@ -119,3 +137,6 @@ plt.xlabel("Predicted Label")
 plt.ylabel("Actual Label")
 plt.title("Confusion Matrix")
 plt.show()
+# Note: High accuracy is expected here because
+# the Iris dataset is clean and well-separated.
+
