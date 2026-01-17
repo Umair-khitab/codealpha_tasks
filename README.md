@@ -1,87 +1,142 @@
-# codealpha_tasks
-# 🌸 Iris Flower Classification
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Jan 13 09:29:09 2026
 
-## 📌 Overview
-This project is part of the **CodeAlpha Data Science Internship**.  
-It demonstrates how to train and evaluate a machine learning model to classify **Iris flowers** into three species (*Setosa, Versicolor, Virginica*) using their physical measurements.
+@author: khita
+"""
 
-The script uses the **Random Forest Classifier** from scikit‑learn and includes:
-- Data exploration
-- Visualization
-- Model training
-- Prediction
-- Evaluation
+# iris_classification.py
+# Task 1: Iris Flower Classification
+# CodeAlpha Data Science Internship
+# This script trains a machine learning model
+# to classify Iris flowers into three species
+# using their physical measurements.
+# Import all required libraries
 
----
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 
-## 📂 File Information
-- **Filename:** `iris_classification.py`  
-- **Author:** khita  
-- **Created On:** Jan 13, 2026  
-- **Language:** Python 3  
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+# Load the Iris dataset
 
----
+# Scikit-learn already provides the Iris dataset,
+# so we don’t need to download it manually.
 
-## ⚙️ Workflow
+iris = load_iris()
 
-### 1. Import Libraries
-- `pandas` – data handling  
-- `matplotlib`, `seaborn` – visualization  
-- `scikit-learn` – dataset, model training, evaluation  
+# X contains flower measurements (features)
+# y contains flower species labels (target)
+X = iris.data
+y = iris.target
 
-### 2. Load Dataset
-- Iris dataset loaded from `sklearn.datasets`.  
-- Features: sepal length, sepal width, petal length, petal width.  
-- Target: species labels.
+feature_names = iris.feature_names
+target_names = iris.target_names
 
-### 3. Create DataFrame
-- Convert dataset into Pandas DataFrame.  
-- Add `species` column for target labels.
 
-### 4. Explore Dataset
-- Display first 5 rows.  
-- Show dataset info (data types, non‑null counts).  
-- Check for missing values.
 
-### 5. Visualize Data
-- **Pairplot** using Seaborn to visualize feature relationships and species distribution.
+# Create a DataFrame for analysis
 
-### 6. Split Dataset
-- Train/test split: 80% training, 20% testing.
+# Converting data into a Pandas DataFrame
+# makes it easier to explore and visualize.
 
-### 7. Train Model
-- Random Forest Classifier (`n_estimators=100`).  
-- Train on training data.  
-- Calculate and plot feature importance.
+df = pd.DataFrame(X, columns=feature_names)
+df["species"] = y
 
-### 8. Make Predictions
-- Predictions on test data.  
-- Classify a custom flower input (`[5.1, 3.5, 1.4, 0.2]`).
+print("First 5 rows of the dataset:")
+print(df.head())
 
-### 9. Evaluate Model
-- Accuracy score.  
-- Classification report (precision, recall, F1‑score).  
-- Confusion matrix heatmap.
 
----
+# Understand the dataset
 
-## 📊 Outputs
-- Pairplot of dataset.  
-- Feature importance bar chart.  
-- Prediction example for custom input.  
-- Accuracy and classification report.  
-- Confusion matrix heatmap.
+print("\nDataset information:")
+print(df.info())
 
----
+print("\nChecking for missing values:")
+print(df.isnull().sum())
 
-## ✅ Key Notes
-- Iris dataset is **clean and well‑separated**, so high accuracy is expected.  
-- Random Forest is robust and interpretable.  
-- Demonstrates a complete ML pipeline: **exploration → visualization → training → prediction → evaluation**.
 
----
 
-## 🚀 How to Run
-1. Install required libraries:
-   ```bash
-   pip install pandas matplotlib seaborn scikit-learn
+# Visualize the data
+# Pairplot helps us see relationships between
+# different features and how species differ.
+
+sns.pairplot(df, hue="species")
+plt.suptitle("Pairplot of Iris Dataset", y=1.02)
+plt.show()
+
+
+
+# Split data into training & testing
+# 80% data for training, 20% for testing
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+
+
+# Train the machine learning model
+# Random Forest is powerful and works very well
+# for classification problems like this.
+
+model = RandomForestClassifier(n_estimators=100, random_state=42)
+model.fit(X_train, y_train)
+feature_importance = pd.Series(
+    model.feature_importances_,
+    index=feature_names
+).sort_values(ascending=False)
+
+print("\nFeature Importance:")
+print(feature_importance)
+
+feature_importance.plot(kind="bar")
+plt.title("Feature Importance in Iris Classification")
+plt.show()
+
+
+
+# Make predictions on test data
+y_pred = model.predict(X_test)
+
+# Predict a new flower sample (custom input)
+sample_flower = [[5.1, 3.5, 1.4, 0.2]]  # example values
+prediction = model.predict(sample_flower)
+
+print("\nPrediction for sample flower:")
+print("Predicted Species:", target_names[prediction[0]])
+
+
+# Evaluate model performance
+accuracy = accuracy_score(y_test, y_pred)
+print("\nModel Accuracy:", accuracy)
+
+print("\nClassification Report:")
+print(classification_report(y_test, y_pred, target_names=target_names))
+
+
+
+# Display confusion matrix
+# Confusion matrix shows correct vs incorrect predictions
+
+cm = confusion_matrix(y_test, y_pred)
+
+plt.figure(figsize=(6, 4))
+sns.heatmap(
+    cm,
+    annot=True,
+    fmt="d",
+    cmap="Blues",
+    xticklabels=target_names,
+    yticklabels=target_names
+)
+plt.xlabel("Predicted Label")
+plt.ylabel("Actual Label")
+plt.title("Confusion Matrix")
+plt.show()
+# Note: High accuracy is expected here because
+# the Iris dataset is clean and well-separated.
+
