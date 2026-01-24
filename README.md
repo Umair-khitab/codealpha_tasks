@@ -2,7 +2,7 @@
 
 This repository contains a Jupyter/Colab notebook that demonstrates an end-to-end exploratory data analysis and classification workflow on the classic Iris dataset. The notebook is implemented with scikit-learn and Python data-science libraries and is intended as a concise, reproducible example for learning classification, model selection, and simple baseline modeling.
 
-Notebook (permalink)
+Notebook (https://colab.research.google.com/drive/1wodP2f_HOWbcvvnTJeXDn9KKNf1Ck3Zs?usp=sharing)
 - Codealpha_Iris_Dataset_Classification.ipynb  
   https://github.com/Umair-khitab/codealpha_tasks/blob/694c6bba94d9d01d7778d1d05306aa5f17b91cb1/Codealpha_Iris_Dataset_Classification.ipynb
 
