@@ -80,8 +80,3 @@ Author / Contact
 
 License
 - No license file included in the repository. Add or confirm a license if you plan to redistribute or reuse.
-
-If you'd like, I can:
-- Add a repository-level README.md with badges and usage instructions (this file),
-- Produce a requirements.txt pinned to specific versions,
-- Convert the notebook to a runnable script (py) or add a Dockerfile for environment consistency.
