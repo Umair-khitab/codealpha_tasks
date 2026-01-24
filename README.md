@@ -78,5 +78,3 @@ Notes & suggested next steps
 Author / Contact
 - Umair Khitab (GitHub: Umair-khitab)
 
-License
-- No license file included in the repository. Add or confirm a license if you plan to redistribute or reuse.
